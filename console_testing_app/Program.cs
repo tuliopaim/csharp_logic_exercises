@@ -9,9 +9,16 @@ namespace console_testing_app
         static void Main(string[] args)
         {
             Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 2, 3, 1, 3 }));
-
+            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 3, 1, 3, 4, 5, 5, 6 ,7, 6, 7 }));
+            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 3, 1, 3, 5, 5, 6, 7 }));
+            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 3, 1, 3, 5, 5, 6, 7, 6, 9 , 7 }));
 
             Console.ReadLine();
+        }
+
+        public static int OddNumberOfTimes(List<int> numbers)
+        {
+            return numbers.GroupBy(n => n).First(array => array.Count() % 2 != 0).FirstOrDefault();
         }
 
         public bool VerificaSeHaLetraRepetida(string entrada) => entrada.ToLower().Distinct().Count() < entrada.Length;
@@ -81,11 +88,7 @@ namespace console_testing_app
 
             return count;
         }
-
-        public static int OddNumberOfTimes(List<int> numbers)
-        {
-            return numbers.GroupBy(n => n).Where(array => array.Count() % 2 != 0).FirstOrDefault().FirstOrDefault();
-        }
+               
 
     }
 
