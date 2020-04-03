@@ -8,10 +8,9 @@ namespace console_testing_app
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(SpinWords("Stop Spinning My Words"));
-            Console.WriteLine(SpinWords("Hey fellow warriors"));
-            Console.WriteLine(SpinWords("This is a Test"));
-            Console.WriteLine(SpinWords("This is another Test"));
+            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 2, 3, 1, 3 }));
+
+
             Console.ReadLine();
         }
 
@@ -81,6 +80,11 @@ namespace console_testing_app
                         count++;
 
             return count;
+        }
+
+        public static int OddNumberOfTimes(List<int> numbers)
+        {
+            return numbers.GroupBy(n => n).Where(array => array.Count() % 2 != 0).FirstOrDefault().FirstOrDefault();
         }
 
     }
