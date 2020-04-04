@@ -9,14 +9,21 @@ namespace console_testing_app
     {
         static void Main(string[] args)
         {
-            var testes = 10000;
-            var media = CalculaMediaExecucao(findNb, 1071225, testes);
-            media = CalculaMediaExecucao(findNb, 91716553919377, testes);
+            Console.WriteLine(FindTheMissingLetter(new List<string> { "a", "b", "c", "d", "f", }));
+            Console.WriteLine(FindTheMissingLetter(new List<string> { "O", "Q", "R", "S" }));
 
             Console.ReadLine();
         }
 
-        public static decimal CalculaMediaExecucao(Func<long, int> funcao, long arg, int times)
+        public static string FindTheMissingLetter(List<string> lista)
+        {
+            for (var i = 0; i < lista.Count() - 1; i++)
+                if (lista[i+1][0] - lista[i][0] > 1)
+                    return char.ConvertFromUtf32(lista[i][0] + 1);
+            return "";
+        }
+
+        public static decimal MetricasDeExecucao(Func<long, int> funcao, long arg, int times)
         {
             var relogio = new Stopwatch();
 
@@ -44,11 +51,11 @@ namespace console_testing_app
         public static int findNb(long total)
         {
             var n = 1;
-            double cubo = 0;
+            decimal cubo = 0;
 
             while(true)
             {
-                cubo += Math.Pow(n, 3);
+                cubo += (decimal) n*n*n;
                 if (cubo == total) return n;
                 else if (cubo > total) return -1;
                 else n++;
