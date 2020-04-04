@@ -19,7 +19,7 @@ namespace console_testing_app
         {
             for (var i = 0; i < lista.Count() - 1; i++)
                 if (lista[i+1][0] - lista[i][0] > 1)
-                    return char.ConvertFromUtf32(lista[i][0] + 1);
+                    return ((char)(lista[i][0] + 1)).ToString();
             return "";
         }
 
