@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace console_testing_app
@@ -8,17 +9,62 @@ namespace console_testing_app
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 2, 3, 1, 3 }));
-            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 3, 1, 3, 4, 5, 5, 6 ,7, 6, 7 }));
-            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 3, 1, 3, 5, 5, 6, 7 }));
-            Console.WriteLine(OddNumberOfTimes(new List<int> { 1, 3, 1, 3, 5, 5, 6, 7, 6, 9 , 7 }));
+            var testes = 10000;
+            var media = CalculaMediaExecucao(findNb, 1071225, testes);
+            media = CalculaMediaExecucao(findNb, 91716553919377, testes);
 
             Console.ReadLine();
         }
 
-        public static int OddNumberOfTimes(List<int> numbers)
+        public static decimal CalculaMediaExecucao(Func<long, int> funcao, long arg, int times)
         {
-            return numbers.GroupBy(n => n).First(array => array.Count() % 2 != 0).FirstOrDefault();
+            var relogio = new Stopwatch();
+
+            relogio.Start();
+            for (int i = 0; i < times; i++)
+            {
+                funcao(arg);
+                
+            }
+            relogio.Stop();
+            var totalTempo = relogio.ElapsedMilliseconds;
+            var media = totalTempo / (times + 0.0m);
+
+            var resultadoFuncao = funcao(arg);
+
+            Console.WriteLine($"------------------{times} TESTES ------------------");
+            Console.WriteLine($"[{arg}]: {resultadoFuncao}");
+            Console.WriteLine($"Tempo total: {totalTempo / 1000m}s");
+            Console.WriteLine($"Media: {media / 1000m}s");
+            Console.WriteLine();
+
+            return media;
+        }
+
+        public static int findNb(long total)
+        {
+            var n = 1;
+            double cubo = 0;
+
+            while(true)
+            {
+                cubo += Math.Pow(n, 3);
+                if (cubo == total) return n;
+                else if (cubo > total) return -1;
+                else n++;
+            }
+        }
+
+        public static void OddNumberOfTimes(List<int> numbers)
+        {
+            var listasPorNumeros = numbers.GroupBy(n => n).ToList();
+
+            var i = 0;
+            listasPorNumeros.ForEach(lista => Console.WriteLine($"lista[{i++}] -> Key: {lista.Key} [ {string.Join(", ", lista)} ]"));
+
+            var resposta = numbers.GroupBy(n => n).First(array => array.Count() % 2 != 0).Key;
+
+            Console.WriteLine($"Numero: {resposta}");
         }
 
         public bool VerificaSeHaLetraRepetida(string entrada) => entrada.ToLower().Distinct().Count() < entrada.Length;
