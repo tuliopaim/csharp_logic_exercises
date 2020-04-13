@@ -9,10 +9,18 @@ namespace console_testing_app
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(FindTheMissingLetter(new List<string> { "a", "b", "c", "d", "f", }));
-            Console.WriteLine(FindTheMissingLetter(new List<string> { "O", "Q", "R", "S" }));
+            Console.WriteLine(DigitalRoot(16));
+            Console.WriteLine(DigitalRoot(942));
+            Console.WriteLine(DigitalRoot(132189));
 
             Console.ReadLine();
+        }
+
+
+        public static int DigitalRoot(int num)
+        {
+            while (num / 10.0 >= 1) num = num.ToString().Sum(c => int.Parse(c.ToString()));
+            return num;
         }
 
         public static string FindTheMissingLetter(List<string> lista)
@@ -30,8 +38,7 @@ namespace console_testing_app
             relogio.Start();
             for (int i = 0; i < times; i++)
             {
-                funcao(arg);
-                
+                funcao(arg);                
             }
             relogio.Stop();
             var totalTempo = relogio.ElapsedMilliseconds;
@@ -78,16 +85,9 @@ namespace console_testing_app
 
         public static int Persistence(int num)
         {
-            var count = 0;
-            while (num.ToString().Length > 1)
-            { 
-                var numeros = num.ToString().Select(num => int.Parse(num.ToString())).ToList();
-                num = numeros[0];
-                for (var i = 1; i < numeros.Count; i++) num *= numeros[i];
-                count++;
-            }
-
-            return count;
+            var c = 0;
+            for(; num / 10.0 >= 1; c++) num = num.ToString().Sum(c => int.Parse(c.ToString()));
+            return c;
         }
 
         public static string ToCamelCase(string phrase)
